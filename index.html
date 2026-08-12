@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript ES6 Object and Array Destructuring</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f8f8f8; color: #333; }
+        h1 { color: #0056b3; }
+        p { line-height: 1.6; margin-bottom: 20px; }
+        .note {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007bff;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .note ol { margin-left: 20px; padding-left: 0; }
+        .note li { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>JavaScript ES6 Object and Array Destructuring</h1>
+    <p>
+        This page demonstrates various forms of ES6 Object and Array Destructuring in JavaScript.
+        Open your browser's developer console to see the output of each example.
+    </p>
+    <div class="note">
+        <strong>How to view output:</strong>
+        <ol>
+            <li>Open this <code>index.html</code> file in any modern web browser.</li>
+            <li>Press <code>F12</code> (Windows/Linux) or <code>Cmd+Option+I</code> (macOS) to open the developer tools.</li>
+            <li>Navigate to the "Console" tab to see the logged examples.</li>
+        </ol>
+    </div>
+
+    <script>
+        console.log("--- Object Destructuring Examples ---");
+
+        // Define an object to demonstrate destructuring
+        const user = {
+            id: 101,
+            name: "Alice",
+            age: 30,
+            city: "New York",
+            address: {
+                street: "123 Main St",
+                zip: "10001"
+            },
+            roles: ["admin", "editor"]
+        };
+
+        // 1. Basic Object Destructuring
+        // Extracts 'name' and 'age' properties into new variables with the same names.
+        const { name, age } = user;
+        console.log("1. Basic Destructuring:", name, age); // Output: Alice 30
+
+        // 2. Destructuring with Renaming
+        // Extracts 'name' into 'userName' and 'city' into 'userCity'.
+        const { name: userName, city: userCity } = user;
+        console.log("2. Renaming:", userName, userCity); // Output: Alice New York
+
+        // 3. Destructuring with Default Values
+        // 'country' doesn't exist in 'user', so it gets "USA". 'occupation' exists, so its default is ignored.
+        const { country = "USA", occupation = "Developer" } = user;
+        console.log("3. Default Values:", country, occupation); // Output: USA Developer
+
+        // 4. Destructuring with Rest Properties
+        // 'id' is extracted, and 'restOfUser' collects all other properties into a new object.
+        const { id, ...restOfUser } = user;
+        console.log("4. Rest Properties:", id, restOfUser);
+        // Output: 101 { name: 'Alice', age: 30, city: 'New York', address: {...}, roles: [...] }
+
+        // 5. Nested Object Destructuring
+        // Extracts 'street' and 'zip' directly from the nested 'address' object.
+        const { address: { street, zip } } = user;
+        console.log("5. Nested Destructuring:", street, zip); // Output: 123 Main St 10001
+
+        // 6. Destructuring in Function Parameters
+        // Function directly extracts 'name', 'age', and 'city' (with a default) from the passed object.
+        function displayUserInfo({ name, age, city = "Unknown" }) {
+            console.log(`6. Function Params: ${name} is ${age} years old and lives in ${city}.`);
+        }
+        displayUserInfo(user); // Output: Alice is 30 years old and lives in New York.
+        displayUserInfo({ name: "Bob", age: 25 }); // Output: Bob is 25 years old and lives in Unknown.
+
+
+        console.log("\n--- Array Destructuring Examples ---");
+
+        // Define an array to demonstrate destructuring
+        const colors = ["red", "green", "blue", "yellow", "orange"];
+
+        // 1. Basic Array Destructuring
+        // Extracts the first two elements into 'firstColor' and 'secondColor'.
+        const [firstColor, secondColor] = colors;
+        console.log("1. Basic Destructuring:", firstColor, secondColor); // Output: red green
+
+        // 2. Skipping Elements
+        // Skips the first two elements and extracts the third into 'thirdColor'.
+        const [,, thirdColor] = colors;
+        console.log("2. Skipping Elements:", thirdColor); // Output: blue
+
+        // 3. Array Destructuring with Default Values
+        // 'c5' doesn't exist at index 4, so it gets "purple".
+        const [c1, c2, c3, c4, c5 = "purple"] = colors;
+        console.log("3. Default Values:", c1, c2, c3, c4, c5); // Output: red green blue yellow purple
+
+        // 4. Array Destructuring with Rest Elements
+        // 'mainColor' gets the first element, 'otherColors' gets the rest as a new array.
+        const [mainColor, ...otherColors] = colors;
+        console.log("4. Rest Elements:", mainColor, otherColors);
+        // Output: red ['green', 'blue', 'yellow', 'orange']
+
+        // 5. Swapping Variables (common use case)
+        let a = 10;
+        let b = 20;
+        [a, b] = [b, a]; // Swaps the values of 'a' and 'b' efficiently.
+        console.log("5. Swapping Variables:", a, b); // Output: 20 10
+
+        // 6. Nested Array Destructuring
+        const matrix = [
+            [1, 2],
+            [3, 4, 5]
+        ];
+        // Extracts elements from nested arrays.
+        const [[r1c1, r1c2], [r2c1, r2c2]] = matrix;
+        console.log("6. Nested Destructuring:", r1c1, r1c2, r2c1, r2c2); // Output: 1 2 3 4
+
+        // 7. Destructuring in Function Parameters (with arrays)
+        // Function directly extracts 'x' and 'y' from the passed array.
+        function processCoordinates([x, y]) {
+            console.log(`7. Function Params: X: ${x}, Y: ${y}`);
+        }
+        processCoordinates([100, 200]); // Output: X: 100, Y: 200
+        processCoordinates([50]); // Output: X: 50, Y: undefined (y is not provided)
+
+    </script>
+</body>
+</html>
